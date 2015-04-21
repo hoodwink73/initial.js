@@ -33,7 +33,10 @@
             }, options);
 
             // overriding from data attributes
-            settings = $.extend(settings, e.data());
+            settings = $.extend(settings, {
+                name: $(e).attr('data-name'),
+                index: $(e).attr('data-index')
+            });
 
             // making the text object
             var c = settings.name.substr(0, settings.charCount).toUpperCase();
@@ -52,7 +55,7 @@
             // the background-color of the initial depends on its index
             // elements upto index 10 will be designated a color otherwise
             // the background color will be gray
-            if (settings.index < 10) {
+            if (settings.index && settings.index < 10) {
                 colorIndex = settings.index;
             } else {
                 colorIndex = 10;
@@ -70,7 +73,6 @@
             });
 
             svg.append(cobj);
-           // svg.append(group);
             var svgHtml = window.btoa(unescape(encodeURIComponent($('<div>').append(svg.clone()).html())));
 
             e.attr("src", 'data:image/svg+xml;base64,' + svgHtml);
@@ -78,4 +80,4 @@
         });
     };
 
-}(jQuery || $));
+}(Zepto));
