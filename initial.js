@@ -2,8 +2,21 @@
     $.fn.initial = function (options) {
 
         // Defining Colors
-        var colors = ["#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#2ecc71", "#27ae60", "#e67e22", "#d35400", "#3498db", "#2980b9", "#e74c3c", "#c0392b", "#9b59b6", "#8e44ad", "#bdc3c7", "#34495e", "#2c3e50", "#95a5a6", "#7f8c8d", "#ec87bf", "#d870ad", "#f69785", "#9ba37e", "#b49255", "#b49255", "#a94136"];
-
+        // 10 colors for ten index
+        // the rest will be gray
+        var colors = ["#D9B3E7",
+                      "#CFE465",
+                      "#7FDED7",
+                      "#EBA97A",
+                      "#8EC6E6",
+                      "#F0A6B8",
+                      "#E0C468",
+                      "#ADDD8B",
+                      "#7AE0AE",
+                      "#CCC9DA",
+                      // gray
+                      "#d9e5eb"];
+        var colorIndex;
         return this.each(function () {
 
             var e = $(this);
@@ -36,7 +49,14 @@
                 'font-size': settings.fontSize+'px',
             });
 
-            var colorIndex = Math.floor((c.charCodeAt(0) - 65) % colors.length);
+            // the background-color of the initial depends on its index
+            // elements upto index 10 will be designated a color otherwise
+            // the background color will be gray
+            if (settings.index < 10) {
+                colorIndex = settings.index;
+            } else {
+                colorIndex = 10;
+            }
 
             var svg = $('<svg></svg>').attr({
                 'xmlns': 'http://www.w3.org/2000/svg',
@@ -55,7 +75,7 @@
 
             e.attr("src", 'data:image/svg+xml;base64,' + svgHtml);
 
-        })
+        });
     };
 
 }(jQuery));
