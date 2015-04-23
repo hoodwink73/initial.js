@@ -1,23 +1,14 @@
 (function ($) {
     $.fn.initial = function (options) {
+        var colors, colorIndex, index;
+        // the options must include colors
+        if ("colors" in options) {
+            colors = options.colors;
+        } else {
+            throw Error("Options passed to generate initials must include an array of colors to be used");
+        }
 
-        // Defining Colors
-        // 10 colors for ten index
-        // the rest will be gray
-        var colors = ["#D9B3E7",
-                      "#CFE465",
-                      "#7FDED7",
-                      "#EBA97A",
-                      "#8EC6E6",
-                      "#F0A6B8",
-                      "#E0C468",
-                      "#ADDD8B",
-                      "#7AE0AE",
-                      "#CCC9DA",
-                      // gray
-                      "#d9e5eb"];
-        var colorIndex;
-        return this.each(function () {
+        return this.each(function (index, el) {
 
             var e = $(this);
             var settings = $.extend({
@@ -52,13 +43,12 @@
                 'font-size': settings.fontSize+'px',
             });
 
-            // the background-color of the initial depends on its index
-            // elements upto index 10 will be designated a color otherwise
-            // the background color will be gray
-            if (settings.index && settings.index < 10) {
-                colorIndex = settings.index;
+            // we have a fixed number of colors, we will rotate
+            // it to generate any numebr of initials
+            if (settings.index >= colors.length ) {
+                colorIndex = colors.length % settings.index;
             } else {
-                colorIndex = 10;
+                colorIndex = settings.index;
             }
 
             var svg = $('<svg></svg>').attr({
@@ -69,7 +59,8 @@
             }).css({
                 'background-color': colors[colorIndex],
                 'width': settings.width+'px',
-                'height': settings.height+'px'
+                'height': settings.height+'px',
+                'border-radius': settings.borderRadius + 'px'
             });
 
             svg.append(cobj);
